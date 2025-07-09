@@ -71,7 +71,9 @@
                             <!-- Botones -->
                             <div class="d-flex justify-content-end">
                                 <a href="/" class="btn btn-secondary me-2"><i class="bi bi-arrow-left-circle"></i> Volver</a>
-                                <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Guardar</button>
+                                <button type="submit" class="btn btn-primary">
+                                    {% if editar %} ✏️ Guardar Cambios {% else %} 💾 Guardar {% endif %}
+                                </button>
                             </div>
                         </form>
                     </div>

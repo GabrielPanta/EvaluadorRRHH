@@ -5,6 +5,7 @@ from pyswip import Prolog
 import os
 from django.conf import settings
 from .models import Candidato
+from django.shortcuts import get_object_or_404
 
 def generar_logica_prolog():
     ruta = os.path.join(settings.BASE_DIR, 'evaluador', 'logica.pl')
@@ -51,3 +52,22 @@ def agregar_candidato(request):
     else:
         form = CandidatoForm()
     return render(request, 'evaluador/formulario.html', {'form': form})
+
+
+
+def editar_candidato(request, id):
+    candidato = get_object_or_404(Candidato, id=id)
+    if request.method == 'POST':
+        form = CandidatoForm(request.POST, instance=candidato)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    else:
+        form = CandidatoForm(instance=candidato)
+    return render(request, 'evaluador/formulario.html', {'form': form, 'editar': True})
+
+def eliminar_candidato(request, id):
+    candidato = get_object_or_404(Candidato, id=id)
+    candidato.delete()
+    return redirect('/')
+

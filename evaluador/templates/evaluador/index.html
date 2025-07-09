@@ -23,6 +23,7 @@
                             <th>Experiencia</th>
                             <th>Habilidades</th>
                             <th>Elegible</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,11 +34,17 @@
                             <td>{{ candidato.lista_habilidades|join:", " }}</td>
                             <td class="text-center">
                                 {% if elegible %}
-                                    <span class="badge bg-success">✅ Sí</span>
+                                <span class="badge bg-success">✅ Sí</span>
                                 {% else %}
-                                    <span class="badge bg-danger">❌ No</span>
+                                <span class="badge bg-danger">❌ No</span>
                                 {% endif %}
                             </td>
+                            <td>
+                                <a href="{% url 'editar_candidato' candidato.id %}" class="btn btn-sm btn-warning">✏️ Editar</a>
+                                <a href="{% url 'eliminar_candidato' candidato.id %}" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('¿Estás seguro de eliminar este candidato?');">🗑️ Eliminar</a>
+                            </td>
+
                         </tr>
                         {% empty %}
                         <tr>
