@@ -6,6 +6,9 @@ import os
 from django.conf import settings
 from .models import Candidato
 from django.shortcuts import get_object_or_404
+from .models import Puesto, Postulacion, Candidato
+from .forms import PuestoForm, PostulacionForm
+from django.shortcuts import render, redirect
 
 def generar_logica_prolog():
     ruta = os.path.join(settings.BASE_DIR, 'evaluador', 'logica.pl')
@@ -70,4 +73,31 @@ def eliminar_candidato(request, id):
     candidato = get_object_or_404(Candidato, id=id)
     candidato.delete()
     return redirect('/')
+
+# Crear nuevo puesto (RRHH)
+def crear_puesto(request):
+    if request.method == 'POST':
+        form = PuestoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_puestos')
+    else:
+        form = PuestoForm()
+    return render(request, 'evaluador/crear_puesto.html', {'form': form})
+
+# Listar puestos disponibles
+def listar_puestos(request):
+    puestos = Puesto.objects.filter(estado='abierto')
+    return render(request, 'evaluador/puestos.html', {'puestos': puestos})
+
+# Postular a un puesto
+def postular_puesto(request,puesto_id):
+    if request.method == 'POST':
+        form = PostulacionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_puestos')
+    else:
+        form = PostulacionForm()
+    return render(request, 'evaluador/postular.html', {'form': form})
 

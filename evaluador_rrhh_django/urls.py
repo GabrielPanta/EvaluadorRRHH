@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from evaluador import views
 
 urlpatterns = [
@@ -8,5 +8,8 @@ urlpatterns = [
     path('nuevo/', views.agregar_candidato, name='nuevo_candidato'),
     path('editar/<int:id>/', views.editar_candidato, name='editar_candidato'),
     path('eliminar/<int:id>/', views.eliminar_candidato, name='eliminar_candidato'),
+    path('puestos/', views.listar_puestos, name='listar_puestos'),
+    path('puestos/nuevo/', views.crear_puesto, name='crear_puesto'),
+    path('puestos/postular/<int:puesto_id>/', views.postular_puesto, name='postular_puesto'),
 ]
 
