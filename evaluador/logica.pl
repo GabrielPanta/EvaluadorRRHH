@@ -1,4 +1,4 @@
-% Generado automáticamente
+% Generado automï¿½ticamente
 
 experiencia(clara, 3).
 habilidad(clara, programacion).
@@ -6,6 +6,8 @@ habilidad(clara, trabajo_en_equipo).
 experiencia(gabriel, 2).
 habilidad(gabriel, programacion).
 habilidad(gabriel, trabajo_en_equipo).
+experiencia(cecilia_cordova, 2).
+habilidad(cecilia_cordova, liderazgo).
 
 
 elegible(Nombre) :-

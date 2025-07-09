@@ -3,29 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrar Candidato</title>
-    <!-- Bootstrap 5 CDN -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Iconos de Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body class="bg-light">
 
-    <div class="container mt-5">
-        <div class="card shadow rounded">
-            <div class="card-header bg-primary text-white">
-                <h2 class="mb-0">Registrar Nuevo Candidato</h2>
-            </div>
-            <div class="card-body">
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-success">💾 Guardar</button>
-                    <a href="/" class="btn btn-secondary ms-2">🔙 Volver al listado</a>
-                </form>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h3 class="mb-0"><i class="bi bi-person-plus-fill me-2"></i>Registrar Nuevo Candidato</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+
+                            <!-- Nombre -->
+                            <div class="mb-3">
+                                <label for="id_nombre" class="form-label">Nombre completo</label>
+                                <input type="text" name="nombre" class="form-control {% if form.nombre.errors %}is-invalid{% endif %}" id="id_nombre" value="{{ form.nombre.value|default_if_none:'' }}">
+                                {% for error in form.nombre.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Experiencia -->
+                            <div class="mb-3">
+                                <label for="id_experiencia" class="form-label">Años de experiencia</label>
+                                <input type="number" name="experiencia" class="form-control {% if form.experiencia.errors %}is-invalid{% endif %}" id="id_experiencia" value="{{ form.experiencia.value|default_if_none:'' }}">
+                                {% for error in form.experiencia.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Habilidades -->
+                            <div class="mb-3">
+                                <label for="id_habilidades" class="form-label">Habilidades</label>
+                                <input type="text" name="habilidades" class="form-control {% if form.habilidades.errors %}is-invalid{% endif %}" id="id_habilidades" placeholder="Ej. python, liderazgo" value="{{ form.habilidades.value|default_if_none:'' }}">
+                                <div class="form-text">Separa las habilidades con comas.</div>
+                                {% for error in form.habilidades.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Estudios -->
+                            <div class="mb-3">
+                                <label for="id_estudios" class="form-label">Nivel de estudios</label>
+                                <input type="text" name="estudios" class="form-control {% if form.estudios.errors %}is-invalid{% endif %}" id="id_estudios" placeholder="Ej. Bachiller en Ingeniería" value="{{ form.estudios.value|default_if_none:'' }}">
+                                {% for error in form.estudios.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Personalidad -->
+                            <div class="mb-3">
+                                <label for="id_personalidad" class="form-label">Personalidad</label>
+                                <input type="text" name="personalidad" class="form-control {% if form.personalidad.errors %}is-invalid{% endif %}" id="id_personalidad" placeholder="Ej. proactivo, empático" value="{{ form.personalidad.value|default_if_none:'' }}">
+                                {% for error in form.personalidad.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Botones -->
+                            <div class="d-flex justify-content-end">
+                                <a href="/" class="btn btn-secondary me-2"><i class="bi bi-arrow-left-circle"></i> Volver</a>
+                                <button type="submit" class="btn btn-success"><i class="bi bi-save"></i> Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Optional: Bootstrap JS (para futuros componentes) -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 
