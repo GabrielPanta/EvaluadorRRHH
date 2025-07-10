@@ -11,5 +11,6 @@ urlpatterns = [
     path('puestos/', views.listar_puestos, name='listar_puestos'),
     path('puestos/nuevo/', views.crear_puesto, name='crear_puesto'),
     path('puestos/postular/<int:puesto_id>/', views.postular_puesto, name='postular_puesto'),
+    path('postulaciones/', views.ver_postulaciones, name='ver_postulaciones'),
 ]
 

@@ -101,3 +101,6 @@ def postular_puesto(request,puesto_id):
         form = PostulacionForm()
     return render(request, 'evaluador/postular.html', {'form': form})
 
+def ver_postulaciones(request):
+    postulaciones = Postulacion.objects.select_related('candidato', 'puesto').all()
+    return render(request, 'evaluador/postulaciones.html', {'postulaciones': postulaciones})

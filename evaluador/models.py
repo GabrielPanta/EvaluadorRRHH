@@ -11,7 +11,8 @@ class Candidato(models.Model):
     @property
     def lista_habilidades(self):
         return [h.strip() for h in self.habilidades.split(',')]
-
+    def __str__(self):
+        return self.nombre  # Esto hace que se vea el nombre en los formulario
 
 class Puesto(models.Model):
     titulo = models.CharField(max_length=100)
@@ -35,3 +36,6 @@ class Postulacion(models.Model):
 
     def __str__(self):
         return f"{self.candidato.nombre} - {self.puesto.titulo}"
+    
+    
+    
