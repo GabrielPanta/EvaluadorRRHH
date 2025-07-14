@@ -28,13 +28,32 @@ elegible(Nombre) :-
     habilidad(Nombre, trabajo_en_equipo).
 """)
 
-# ✅ Usamos esta función para conectarnos con Prolog
+#  Usamos esta función para conectarnos con Prolog
 def evaluar_candidato(nombre):
     prolog = Prolog()
-    prolog.consult("evaluador/logica.pl")  # Asegúrate que este archivo existe y tiene la regla elegible(Nombre).
-    nombre = nombre.lower().replace(" ", "_")  # ¡clave!
+    prolog.consult("evaluador/logica.pl") 
+    nombre = nombre.lower().replace(" ", "_")  
     result = list(prolog.query(f"elegible({nombre})"))
     return len(result) > 0
+
+def ver_perfiles(request):
+    prolog = Prolog()
+    prolog.consult("evaluador/logica.pl")
+
+    perfiles = {
+        "perfil_tecnico": list(prolog.query("perfil_tecnico(Nombre)")),
+        "perfil_liderazgo": list(prolog.query("perfil_liderazgo(Nombre)")),
+        "perfil_integral": list(prolog.query("perfil_integral(Nombre)")),
+        "sobresaliente": list(prolog.query("sobresaliente(Nombre)")),
+        "necesita_formacion": list(prolog.query("necesita_formacion(Nombre)"))
+    }
+
+    # Convertir a listas de nombres
+    for key in perfiles:
+        perfiles[key] = [p["Nombre"] for p in perfiles[key]]
+
+    return render(request, "evaluador/perfiles.html", {"perfiles": perfiles})
+
 
 # Vista principal
 def index(request):
@@ -50,7 +69,7 @@ def agregar_candidato(request):
             candidato = form.save(commit=False)
             candidato.es_elegible = evaluar_candidato(candidato.nombre)
             candidato.save()
-            generar_logica_prolog()  # 🔁 Actualiza el archivo logica.pl
+            generar_logica_prolog()  # Actualiza el archivo logica.pl
             return redirect('/')
     else:
         form = CandidatoForm()
