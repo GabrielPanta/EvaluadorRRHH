@@ -3,6 +3,7 @@ from .models import Candidato
 from .forms import CandidatoForm
 from pyswip import Prolog
 import os
+import pandas as pd
 from django.conf import settings
 from .models import Candidato
 from django.shortcuts import get_object_or_404
@@ -123,3 +124,25 @@ def postular_puesto(request,puesto_id):
 def ver_postulaciones(request):
     postulaciones = Postulacion.objects.select_related('candidato', 'puesto').all()
     return render(request, 'evaluador/postulaciones.html', {'postulaciones': postulaciones})
+
+def resumen_candidatos(request):
+    candidatos = Candidato.objects.all()
+
+    # Creamos el DataFrame
+    data = []
+    for c in candidatos:
+        data.append({
+            'Nombre': c.nombre,
+            'Experiencia': c.experiencia,
+            'Habilidades': ', '.join([h.strip() for h in c.habilidades.split(',')])
+        })
+
+    df = pd.DataFrame(data)
+
+    # Generamos estadísticas
+    resumen = df['Experiencia'].describe().to_dict() if not df.empty else {}
+
+    return render(request, 'evaluador/resumen.html', {
+        'resumen': resumen,
+        'total_candidatos': len(df)
+    })
