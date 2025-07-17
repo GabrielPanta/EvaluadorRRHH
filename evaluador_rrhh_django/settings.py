@@ -7,23 +7,23 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
-     'django.contrib.admin',         # ✅ Necesario para admin
+     'django.contrib.admin',         
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
-    'evaluador',                    # ✅ Tu app personalizada
+    'evaluador',                    
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',  # ✅ requerido
+    'django.contrib.sessions.middleware.SessionMiddleware',  
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',  # ✅ requerido
-    'django.contrib.messages.middleware.MessageMiddleware',      # ✅ requerido
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  
+    'django.contrib.messages.middleware.MessageMiddleware',     
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -37,9 +37,9 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
         'django.template.context_processors.debug',
-        'django.template.context_processors.request',  # ✅ requerido por admin
-        'django.contrib.auth.context_processors.auth',  # ✅ requerido
-        'django.contrib.messages.context_processors.messages',  # ✅ requerido
+        'django.template.context_processors.request',  
+        'django.contrib.auth.context_processors.auth',  
+        'django.contrib.messages.context_processors.messages',  
     ],
         },
     },

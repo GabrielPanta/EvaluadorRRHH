@@ -27,9 +27,39 @@ elegible(Nombre) :-
     Exp >= 2,
     habilidad(Nombre, programacion),
     habilidad(Nombre, trabajo_en_equipo).
+perfil_tecnico(Nombre) :-
+    habilidad(Nombre, programacion),
+    experiencia(Nombre, Exp),
+    Exp >= 2.
+
+perfil_liderazgo(Nombre) :-
+    habilidad(Nombre, liderazgo),
+    experiencia(Nombre, Exp),
+    Exp >= 1.
+
+junior(Nombre) :- experiencia(Nombre, Exp), Exp < 2.
+semisenior(Nombre) :- experiencia(Nombre, Exp), Exp >= 2, Exp < 4.
+senior(Nombre) :- experiencia(Nombre, Exp), Exp >= 4.
+
+perfil_integral(Nombre) :-
+    habilidad(Nombre, programacion),
+    habilidad(Nombre, trabajo_en_equipo),
+    habilidad(Nombre, liderazgo),
+    experiencia(Nombre, Exp),
+    Exp >= 3.
+
+sobresaliente(Nombre) :-
+    experiencia(Nombre, Exp),
+    Exp >= 5,
+    habilidad(Nombre, programacion),
+    habilidad(Nombre, trabajo_en_equipo),
+    habilidad(Nombre, liderazgo).
+
+necesita_formacion(Nombre) :-
+    \\+ habilidad(Nombre, programacion).
 """)
 
-#  Usamos esta función para conectarnos con Prolog
+
 def evaluar_candidato(nombre):
     prolog = Prolog()
     prolog.consult("evaluador/logica.pl") 
@@ -49,20 +79,20 @@ def ver_perfiles(request):
         "necesita_formacion": list(prolog.query("necesita_formacion(Nombre)"))
     }
 
-    # Convertir a listas de nombres
+    
     for key in perfiles:
         perfiles[key] = [p["Nombre"] for p in perfiles[key]]
 
     return render(request, "evaluador/perfiles.html", {"perfiles": perfiles})
 
 
-# Vista principal
+
 def index(request):
     candidatos = Candidato.objects.all()
     resultados = [(c, evaluar_candidato(c.nombre)) for c in candidatos]
     return render(request, 'evaluador/index.html', {'resultados': resultados})
 
-# Vista para agregar candidatos
+
 def agregar_candidato(request):
     if request.method == 'POST':
         form = CandidatoForm(request.POST)
@@ -70,7 +100,7 @@ def agregar_candidato(request):
             candidato = form.save(commit=False)
             candidato.es_elegible = evaluar_candidato(candidato.nombre)
             candidato.save()
-            generar_logica_prolog()  # Actualiza el archivo logica.pl
+            generar_logica_prolog() 
             return redirect('/')
     else:
         form = CandidatoForm()
@@ -94,7 +124,7 @@ def eliminar_candidato(request, id):
     candidato.delete()
     return redirect('/')
 
-# Crear nuevo puesto (RRHH)
+
 def crear_puesto(request):
     if request.method == 'POST':
         form = PuestoForm(request.POST)
@@ -105,12 +135,12 @@ def crear_puesto(request):
         form = PuestoForm()
     return render(request, 'evaluador/crear_puesto.html', {'form': form})
 
-# Listar puestos disponibles
+
 def listar_puestos(request):
     puestos = Puesto.objects.filter(estado='abierto')
     return render(request, 'evaluador/puestos.html', {'puestos': puestos})
 
-# Postular a un puesto
+
 def postular_puesto(request,puesto_id):
     if request.method == 'POST':
         form = PostulacionForm(request.POST)
@@ -128,7 +158,7 @@ def ver_postulaciones(request):
 def resumen_candidatos(request):
     candidatos = Candidato.objects.all()
 
-    # Creamos el DataFrame
+   
     data = []
     for c in candidatos:
         data.append({
@@ -139,7 +169,7 @@ def resumen_candidatos(request):
 
     df = pd.DataFrame(data)
 
-    # Generamos estadísticas
+  
     resumen = df['Experiencia'].describe().to_dict() if not df.empty else {}
 
     return render(request, 'evaluador/resumen.html', {

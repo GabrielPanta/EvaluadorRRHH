@@ -1,4 +1,4 @@
-% Generado autom�ticamente
+% Generado autom�ticamente
 
 experiencia(clara, 3).
 habilidad(clara, programacion).
@@ -27,6 +27,16 @@ habilidad(garcia_valdi_viezo_dalessandro, trabajo_en_equipo).
 experiencia(sofia_andrade, 5).
 habilidad(sofia_andrade, programacion).
 habilidad(sofia_andrade, trabajo_en_equipo).
+experiencia(cecilia_cordova, 1).
+habilidad(cecilia_cordova, liderazgo).
+experiencia(juan_perez, 5).
+habilidad(juan_perez, programacion).
+habilidad(juan_perez, trabajo_en_equipo).
+experiencia(karla_querevalu, 1).
+habilidad(karla_querevalu, liderazgo).
+experiencia(santa_rosa, -4).
+habilidad(santa_rosa, programacion).
+habilidad(santa_rosa, trabajo_en_equipo).
 
 
 elegible(Nombre) :-
@@ -34,25 +44,20 @@ elegible(Nombre) :-
     Exp >= 2,
     habilidad(Nombre, programacion),
     habilidad(Nombre, trabajo_en_equipo).
-    
-% Regla: Perfil técnico
 perfil_tecnico(Nombre) :-
     habilidad(Nombre, programacion),
     experiencia(Nombre, Exp),
     Exp >= 2.
 
-% Regla: Perfil liderazgo
 perfil_liderazgo(Nombre) :-
     habilidad(Nombre, liderazgo),
     experiencia(Nombre, Exp),
     Exp >= 1.
 
-% Regla: Nivel de experiencia
 junior(Nombre) :- experiencia(Nombre, Exp), Exp < 2.
 semisenior(Nombre) :- experiencia(Nombre, Exp), Exp >= 2, Exp < 4.
 senior(Nombre) :- experiencia(Nombre, Exp), Exp >= 4.
 
-% Regla: Perfil integral
 perfil_integral(Nombre) :-
     habilidad(Nombre, programacion),
     habilidad(Nombre, trabajo_en_equipo),
@@ -60,7 +65,6 @@ perfil_integral(Nombre) :-
     experiencia(Nombre, Exp),
     Exp >= 3.
 
-% Regla: Sobresaliente
 sobresaliente(Nombre) :-
     experiencia(Nombre, Exp),
     Exp >= 5,
@@ -68,7 +72,5 @@ sobresaliente(Nombre) :-
     habilidad(Nombre, trabajo_en_equipo),
     habilidad(Nombre, liderazgo).
 
-% Regla: Necesita formación
 necesita_formacion(Nombre) :-
     \+ habilidad(Nombre, programacion).
-
